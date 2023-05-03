@@ -7,7 +7,7 @@
  *
  * Return: The pointer to the new node, or NULL if it fails
  */
-listint_t *add_nodeint(listint_t **fnode, const int q)
+listint_t *add_nodeint(listint_t **head, const int n)
 {
 	listint_t *new;
 
@@ -15,9 +15,9 @@ listint_t *add_nodeint(listint_t **fnode, const int q)
 	if (!new)
 		return (NULL);
 
-	new->q = q;
-	new->next = *fnode;
-	*fnode = new;
+	new->n = n;
+	new->next = *head;
+	*head = new;
 
 	return (new);
 }
