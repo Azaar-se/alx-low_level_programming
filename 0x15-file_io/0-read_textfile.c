@@ -15,7 +15,7 @@ ssize_t read_textfile(const char *filenom, size_t let)
 	ssize_t m;
 	ssize_t f;
 
-	fn = open(filename, O_RDONLY);
+	fn = open(filenom, O_RDONLY);
 	if (fn == -1)
 		return (0);
 	tuff = malloc(sizeof(char) * let);
