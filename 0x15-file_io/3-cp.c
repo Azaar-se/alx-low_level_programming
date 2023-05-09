@@ -53,24 +53,24 @@ void close_file(int cf)
  *
  * Descriptions: If the arg count is wrong - exit code 97.
  * If file_frm does not exist or cannot be read - exit code 98.
- * If file_toh cannot be created or written to - exit code 99.
- * If file_toh or file_frm cannot be closed - exit code 100.
+ * If file_to cannot be created or written to - exit code 99.
+ * If file_to or file_frm cannot be closed - exit code 100.
  */
 int main(int argc, char *argv[])
 {
-	int frm, toh, f, m;
+	int frm, to, f, m;
 	char *baffa;
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_frm file_toh\n");
+		dprintf(STDERR_FILENO, "Usage: cp file_frm file_to\n");
 		exit(97);
 	}
 
 	baffa = create_buffer(argv[2]);
 	frm = open(argv[1], O_RDONLY);
 	f = read(frm, baffa, 1024);
-	toh = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
 	do {
 		if (frm == -1 || f == -1)
@@ -81,23 +81,23 @@ int main(int argc, char *argv[])
 			exit(98);
 		}
 
-		m = write(toh, baffa, f);
-		if (toh == -1 || m == -1)
+		m = write(to, baffa, f);
+		if (to == -1 || m == -1)
 		{
 			dprintf(STDERR_FILENO,
-				"Error: Can't write toh %s\n", argv[2]);
+				"Error: Can't write to %s\n", argv[2]);
 			free(baffa);
 			exit(99);
 		}
 
 		f = read(frm, baffa, 1024);
-		toh = open(argv[2], O_WRONLY | O_APPEND);
+		to = open(argv[2], O_WRONLY | O_APPEND);
 
 	} while (f > 0);
 
 	free(baffa);
 	close_file(frm);
-	close_file(toh);
+	close_file(to);
 
 	return (0);
 }
